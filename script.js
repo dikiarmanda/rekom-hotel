@@ -43,7 +43,6 @@ let state = {
     };
   }),
   selectedCity: "all",
-  selectedCategory: "all",
   searchQuery: "",
   sortBy: "random",
   randomOrder: {},
@@ -90,12 +89,8 @@ function formatIDR(amount) {
 }
 
 function getApproxPrice(hotel) {
-  if (hotel.harga_mulai_dari_idr) {
-    return hotel.harga_mulai_dari_idr;
-  }
-  if (hotel.perkiraan_harga_idr) {
-    // Approximate midpoint for sorting
-    return 1100000;
+  if (hotel.harga) {
+    return hotel.harga;
   }
   return 9999999;
 }
@@ -153,18 +148,6 @@ function setCityFilter(city) {
   render();
 }
 
-function setCategoryFilter(category) {
-  state.selectedCategory = category;
-  document.querySelectorAll(".cat-btn").forEach((btn) => {
-    if (btn.dataset.cat === category) {
-      btn.className = "cat-btn px-3 py-1.5 rounded-lg font-medium transition bg-brand-600 text-white shadow-sm";
-    } else {
-      btn.className = "cat-btn px-3 py-1.5 rounded-lg font-medium transition bg-slate-100 hover:bg-slate-200 text-slate-600";
-    }
-  });
-  render();
-}
-
 function handleSearch() {
   const val = document.getElementById("searchInput").value;
   state.searchQuery = val.trim().toLowerCase();
@@ -186,7 +169,6 @@ function clearSearch() {
 
 function resetAllFilters() {
   state.selectedCity = "all";
-  state.selectedCategory = "all";
   state.searchQuery = "";
   state.sortBy = "random";
   state.onlyFavorites = false;
@@ -199,7 +181,6 @@ function resetAllFilters() {
   favBtn.classList.add("bg-white", "text-slate-700");
 
   setCityFilter("all");
-  setCategoryFilter("all");
 }
 
 function setViewMode(mode) {
@@ -227,11 +208,6 @@ function getFilteredData() {
     .filter((hotel) => {
       // City match
       if (state.selectedCity !== "all" && hotel.kota !== state.selectedCity) {
-        return false;
-      }
-
-      // Category match
-      if (state.selectedCategory !== "all" && hotel.kategori !== state.selectedCategory) {
         return false;
       }
 
@@ -280,28 +256,13 @@ function renderStars(bintang) {
   return `<span class="inline-flex items-center gap-1 text-amber-800 bg-amber-50 px-2.5 py-1 rounded-full text-xs font-semibold ring-1 ring-inset ring-amber-600/20"><i data-lucide="star" class="w-3 h-3 fill-amber-400 text-amber-500"></i> ${bintang} ${typeof bintang === "number" ? "Bintang" : ""}</span>`;
 }
 
-function renderCategoryBadge(kategori) {
-  if (kategori === "bintang_rendah_estetik") {
-    return `<span class="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-teal-50 text-teal-700 border border-teal-200">Boutique & Estetik</span>`;
-  }
-  return `<span class="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">Bintang 4-5 Value</span>`;
-}
-
 function renderPriceTag(hotel) {
-  if (hotel.harga_mulai_dari_idr) {
+  if (hotel.harga) {
     return `
           <div class="flex items-baseline gap-1">
             <span class="text-xs text-slate-500 font-medium">Mulai</span>
-            <span class="text-lg font-bold text-slate-900">${formatIDR(hotel.harga_mulai_dari_idr)}</span>
+            <span class="text-lg font-bold text-slate-900">${formatIDR(hotel.harga)}</span>
             <span class="text-[11px] text-slate-400">/malam</span>
-          </div>
-        `;
-  }
-  if (hotel.perkiraan_harga_idr) {
-    return `
-          <div>
-            <div class="text-[10px] text-amber-600 font-bold uppercase tracking-wider">Perkiraan</div>
-            <div class="text-sm font-bold text-slate-900">Rp 1.000.000 - 1.200.000</div>
           </div>
         `;
   }
@@ -318,7 +279,7 @@ function render() {
 
   countEl.innerText = hotels.length;
 
-  const isFiltered = state.selectedCity !== "all" || state.selectedCategory !== "all" || state.searchQuery !== "" || state.onlyFavorites;
+  const isFiltered = state.selectedCity !== "all" || state.searchQuery !== "" || state.onlyFavorites;
   resetBox.classList.toggle("hidden", !isFiltered);
 
   if (hotels.length === 0) {
@@ -372,10 +333,9 @@ function render() {
                 </button>
               </div>
 
-              <!-- Bottom overlay category badge -->
+              <!-- Bottom overlay star badge -->
               <div class="absolute bottom-3 left-3.5 right-3.5 flex items-center justify-between">
                 <div>${renderStars(hotel.bintang)}</div>
-                ${renderCategoryBadge(hotel.kategori)}
               </div>
             </div>
 
@@ -456,11 +416,10 @@ function render() {
             <td class="p-4">
               <div class="flex flex-col gap-1 items-start">
                 ${renderStars(hotel.bintang)}
-                ${renderCategoryBadge(hotel.kategori)}
               </div>
             </td>
             <td class="p-4 whitespace-nowrap">
-              ${hotel.harga_mulai_dari_idr ? `<span class="font-bold text-slate-900">${formatIDR(hotel.harga_mulai_dari_idr)}</span><span class="text-xs text-slate-400">/mlm</span>` : '<span class="text-xs text-amber-700 bg-amber-50 px-2 py-0.5 rounded font-medium">Perkiraan ~1.1 Jt</span>'}
+              ${hotel.harga ? `<span class="font-bold text-slate-900">${formatIDR(hotel.harga)}</span><span class="text-xs text-slate-400">/mlm</span>` : '<span class="text-xs text-amber-700 bg-amber-50 px-2 py-0.5 rounded font-medium">Perkiraan ~1.1 Jt</span>'}
             </td>
             <td class="p-4 max-w-xs">
               <div class="text-xs text-slate-600 truncate">${hotel.alamat || "-"}</div>
@@ -522,18 +481,21 @@ function openModal(id) {
   }
 
   document.getElementById("modalCityBadge").innerText = hotel.kota;
-  document.getElementById("modalCategoryBadge").innerText = hotel.kategori === "bintang_rendah_estetik" ? "Boutique & Estetik" : "Bintang 4 - 5 Luxury Value";
   document.getElementById("modalStarBadge").innerText = hotel.bintang ? `${hotel.bintang} Bintang` : "Desain Estetik";
 
-  if (hotel.harga_mulai_dari_idr) {
-    document.getElementById("modalPrice").innerText = formatIDR(hotel.harga_mulai_dari_idr);
+  if (hotel.harga) {
+    document.getElementById("modalPrice").innerText = formatIDR(hotel.harga);
     document.getElementById("modalPriceLabel").innerText = "/ malam (harga terendah)";
-  } else if (hotel.perkiraan_harga_idr) {
-    document.getElementById("modalPrice").innerText = "Rp 1.000.000 - 1.200.000";
-    document.getElementById("modalPriceLabel").innerText = `(${hotel.perkiraan_harga_idr})`;
   } else {
     document.getElementById("modalPrice").innerText = "Hubungi Pihak Hotel";
     document.getElementById("modalPriceLabel").innerText = "";
+  }
+
+  if (hotel.harga_sarapan) {
+    document.getElementById("modalBreakfastPrice").innerText = formatIDR(hotel.harga_sarapan);
+    document.getElementById("modalBreakfastLabel").innerText = "/ malam (termasuk sarapan)";
+  } else {
+    document.getElementById("modalBreakfastWrapper").style.display = "none";
   }
 
   document.getElementById("modalAddress").innerText = hotel.alamat || "Alamat lengkap dapat dicek melalui tautan peta Google.";
@@ -612,7 +574,7 @@ function updateHeaderStats() {
     luxuryEl.innerText = `${luxuryCount} Properti`;
   }
   if (minPriceEl) {
-    const prices = state.data.map((h) => h.harga_mulai_dari_idr).filter((p) => typeof p === "number" && p > 0);
+    const prices = state.data.map((h) => h.harga).filter((p) => typeof p === "number" && p > 0);
     if (prices.length > 0) {
       const min = Math.min(...prices);
       minPriceEl.innerText = `Rp ${Math.round(min / 1000)} Rb`;

@@ -54,7 +54,7 @@
     </style>
   </head>
   <body class="bg-slate-50 text-slate-800 font-sans min-h-screen selection:bg-brand-500 selection:text-white flex flex-col">
-    <!-- Header / Navbar -->
+    <!-- SECTION: Header / Navbar -->
     <header class="sticky top-0 z-40 glass-nav border-b border-slate-200/80 transition-all shadow-sm">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
         <div class="flex items-center gap-3">
@@ -63,7 +63,7 @@
           </div>
           <div>
             <h1 class="text-xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">StayVibe Catalogue</h1>
-            <p class="text-xs text-slate-500 font-medium">Kurasi Hotel Estetik & Bintang 4-5 Pilihan</p>
+            <p class="text-xs text-slate-500 font-medium">Katalog Rekomendasi Hotel di Jawa Timur</p>
           </div>
         </div>
 
@@ -85,19 +85,19 @@
       </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- SECTION: Hero Section -->
     <section class="relative overflow-hidden bg-gradient-to-b from-brand-50/60 via-slate-50 to-slate-50 pt-10 pb-12 border-b border-slate-200/60">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto space-y-4">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-brand-100 text-brand-700 ring-1 ring-inset ring-brand-700/10">
             <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-            <span>Rekomendasi Staycation Terpilih Surabaya & Sekitarnya</span>
+            <span>Rekomendasi Staycation Terpilih Sidoarjo & Sekitarnya</span>
           </div>
           <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
             Temukan Suasana Menginap <br class="hidden sm:inline" />
             <span class="bg-gradient-to-r from-brand-600 via-indigo-600 to-sky-500 bg-clip-text text-transparent">Paling Estetik & Nyaman</span>
           </h2>
-          <p class="text-sm sm:text-base text-slate-600 leading-relaxed">Koleksi hotel estetik terjangkau dan pilihan hotel bintang 4-5 dengan bujet di bawah Rp 1,5 Juta di Surabaya, Mojokerto, Sidoarjo, & Malang.</p>
+          <p class="text-sm sm:text-base text-slate-600 leading-relaxed">Koleksi rekomendasi hotel di Surabaya, Mojokerto, Sidoarjo, & Malang.</p>
         </div>
 
         <!-- Quick Metrics Summary -->
@@ -145,7 +145,7 @@
       </div>
     </section>
 
-    <!-- Filter & Search Controls -->
+    <!-- SECTION: Filter & Search Controls -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 z-20 w-full">
       <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg shadow-slate-200/50 border border-slate-200 space-y-4">
         <div class="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
@@ -186,19 +186,11 @@
             <button onclick="setCityFilter('Sidoarjo')" data-city="Sidoarjo" class="city-btn px-3 py-1.5 rounded-lg font-medium transition bg-slate-100 hover:bg-slate-200 text-slate-600">Sidoarjo</button>
             <button onclick="setCityFilter('Malang')" data-city="Malang" class="city-btn px-3 py-1.5 rounded-lg font-medium transition bg-slate-100 hover:bg-slate-200 text-slate-600">Malang</button>
           </div>
-
-          <!-- Kategori Filter -->
-          <div class="flex items-center gap-1.5 flex-wrap">
-            <span class="font-bold text-slate-400 uppercase tracking-wider mr-1">Kategori:</span>
-            <button onclick="setCategoryFilter('all')" data-cat="all" class="cat-btn px-3 py-1.5 rounded-lg font-medium transition bg-brand-600 text-white">Semua</button>
-            <button onclick="setCategoryFilter('bintang_rendah_estetik')" data-cat="bintang_rendah_estetik" class="cat-btn px-3 py-1.5 rounded-lg font-medium transition bg-slate-100 hover:bg-slate-200 text-slate-600">Estetik Hemat</button>
-            <button onclick="setCategoryFilter('bintang_4_5_maks_1500000')" data-cat="bintang_4_5_maks_1500000" class="cat-btn px-3 py-1.5 rounded-lg font-medium transition bg-slate-100 hover:bg-slate-200 text-slate-600">Bintang 4-5 (&le; 1.5 Jt)</button>
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- Content Container -->
+    <!-- SECTION: Content Container -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full">
       <!-- Active status indicator -->
       <div class="flex items-center justify-between mb-6">
@@ -223,7 +215,7 @@
               <tr class="bg-slate-100/75 border-b border-slate-200 text-xs font-semibold uppercase tracking-wider text-slate-500">
                 <th class="p-4">Hotel</th>
                 <th class="p-4">Kota</th>
-                <th class="p-4">Kategori & Bintang</th>
+                <th class="p-4">Bintang</th>
                 <th class="p-4">Tarif Mulai</th>
                 <th class="p-4">Alamat & Catatan</th>
                 <th class="p-4 text-right">Aksi</th>
@@ -245,7 +237,7 @@
       </div>
     </main>
 
-    <!-- Detail Modal -->
+    <!-- SECTION: Detail Modal -->
     <div id="hotelModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
       <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 transform transition-all flex flex-col">
         <div class="relative h-56 sm:h-64 bg-slate-800 overflow-hidden shrink-0">
@@ -257,7 +249,6 @@
           <div class="absolute bottom-4 left-5 right-5 text-white">
             <div class="flex items-center gap-2 mb-2 flex-wrap">
               <span id="modalCityBadge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-white/20 backdrop-blur-md"></span>
-              <span id="modalCategoryBadge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-brand-500/80 backdrop-blur-md"></span>
               <span id="modalStarBadge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/90 text-slate-900"></span>
             </div>
             <h3 id="modalTitle" class="text-xl sm:text-2xl font-bold leading-tight"></h3>
@@ -272,6 +263,14 @@
               <div id="modalPrice" class="text-2xl font-extrabold text-slate-900"></div>
             </div>
             <span id="modalPriceLabel" class="text-xs text-slate-500 font-medium">/ malam</span>
+          </div>
+
+          <div class="flex items-baseline justify-between p-4 rounded-2xl bg-slate-50 border border-slate-200" id="modalBreakfastWrapper">
+            <div>
+              <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Harga Termasuk Sarapan</div>
+              <div id="modalBreakfastPrice" class="text-2xl font-extrabold text-slate-900"></div>
+            </div>
+            <span id="modalBreakfastLabel" class="text-xs text-slate-500 font-medium">/ malam</span>
           </div>
 
           <div id="modalNotesWrapper" class="hidden p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex gap-2.5 items-start">
@@ -318,14 +317,13 @@
       </div>
     </div>
 
-    <!-- Footer -->
+    <!-- SECTION: Footer -->
     <footer class="border-t border-slate-200 bg-white mt-auto py-8">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
         <div class="flex items-center gap-2">
           <i data-lucide="sparkles" class="w-4 h-4 text-brand-500"></i>
-          <span>Katalog Staycation Estetik & Luxury Hotel di Jawa Timur.</span>
+          <span>Katalog Staycation Hotel di Jawa Timur.</span>
         </div>
-        <div>Data bersumber dari berbagai ulasan perjalanan (IDN Times, Trip.com, Popbela, TripAdvisor, Detik).</div>
       </div>
     </footer>
 
